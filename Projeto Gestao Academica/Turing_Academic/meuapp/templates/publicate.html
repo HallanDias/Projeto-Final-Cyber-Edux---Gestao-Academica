@@ -1,0 +1,235 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Cadastro de Aluno
+{% endblock %}
+
+{% block conteudo %}
+<!-- Conteúdo específico desta página -->
+<br>
+<br>
+<br>
+<br>
+
+
+<div class="container mt-5">
+    <h1 style="text-align: center;">Cadastro de Aluno</h1>
+    <br>
+    {% if errors %}
+        <div class="alert alert-danger" role="alert">
+            <ul>
+                {% for error in errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+    <form method="POST" enctype="multipart/form-data" onsubmit="return validarForm()">
+        {% csrf_token %}
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <h2 style="background-color: #3b5998; color: white; text-align: center; margin-bottom: 15px;">Dados
+                    Pessoais</h2>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label for="cpf" class="form-label text-black"><strong>CPF:</strong></label>
+                        <input type="text" name="cpf" id="cpf" class="form-control" required>
+                    </div>
+                    <div class="col-md-8 mb-3">
+                        <label for="nome" class="form-label text-black"><strong>Nome:</strong></label>
+                        <input type="text" name="nome" id="nome" class="form-control" required>
+                    </div>
+                    <div class="col-md-8 mb-3">
+                        <label for="nome_mae" class="form-label text-black"><strong>Nome da mãe:</strong></label>
+                        <input type="text" name="nome_mae" id="nome_mae" class="form-control" required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="sexo" class="form-label text-black"><strong>Sexo:</strong></label>
+                        <select name="sexo" id="sexo" class="form-select" required>
+                            <option value="">Selecione</option>
+                            <option value="Masculino">Masculino</option>
+                            <option value="Feminino">Feminino</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <label for="data_nasc" class="form-label text-black"><strong>Data de
+                                Nascimento:</strong></label>
+                        <input type="date" name="data_nasc" id="data_nasc" class="form-control" required>
+                    </div>
+                    <div class="col-md-5 mb-3">
+                        <label for="naturalidade" class="form-label text-black"><strong>Naturalidade:</strong></label>
+                        <input type="text" name="naturalidade" id="naturalidade" class="form-control">
+                    </div>
+                    <div class="col-md-5 mb-3">
+                        <label for="email" class="form-label text-black"><strong>Email:</strong></label>
+                        <input type="email" name="email" id="email" class="form-control">
+                    </div>
+                    <div class="col-md-5 mb-3">
+                        <label for="image" class="form-label text-black"><strong>Foto:</strong></label>
+                        <input type="file" name="image" id="image" class="form-control" accept="image/*" required>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <h2 style="background-color: #3b5998; color: white; text-align: center;">Endereço</h2>
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="cep" class="form-label text-black"><strong>CEP:</strong></label>
+                    <input type="text" name="cep" id="cep" class="form-control" maxlength="8" onblur="consultarCEP()" required>
+                    <button type="button" class="btn btn-primary mt-2" onclick="consultarCEP()">Consultar CEP</button>
+                </div>
+                <div class="col-md-2">
+                    <label for="uf" class="form-label text-black"><strong>Estado:</strong></label>
+                    <select name="uf" id="uf" class="form-select" required>
+                        <option value="">Selecione</option>
+                        <option value="AC">Acre</option>
+                        <option value="AL">Alagoas</option>
+                        <option value="AP">Amapá</option>
+                        <option value="AM">Amazonas</option>
+                        <option value="BA">Bahia</option>
+                        <option value="CE">Ceará</option>
+                        <option value="DF">Distrito Federal</option>
+                        <option value="ES">Espírito Santo</option>
+                        <option value="GO">Goiás</option>
+                        <option value="MA">Maranhão</option>
+                        <option value="MT">Mato Grosso</option>
+                        <option value="MS">Mato Grosso do Sul</option>
+                        <option value="MG">Minas Gerais</option>
+                        <option value="PA">Pará</option>
+                        <option value="PB">Paraíba</option>
+                        <option value="PR">Paraná</option>
+                        <option value="PE">Pernambuco</option>
+                        <option value="PI">Piauí</option>
+                        <option value="RJ">Rio de Janeiro</option>
+                        <option value="RN">Rio Grande do Norte</option>
+                        <option value="RS">Rio Grande do Sul</option>
+                        <option value="RO">Rondônia</option>
+                        <option value="RR">Roraima</option>
+                        <option value="SC">Santa Catarina</option>
+                        <option value="SP">São Paulo</option>
+                        <option value="SE">Sergipe</option>
+                        <option value="TO">Tocantins</option>
+                    </select>
+                </div>
+                
+                <div class="col-md-3">
+                    <label for="cidade" class="form-label text-black"><strong>Cidade:</strong></label>
+                    <input type="text" name="cidade" id="cidade" class="form-control" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="bairro" class="form-label text-black"><strong>Bairro:</strong></label>
+                    <input type="text" name="bairro" id="bairro" class="form-control" required>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-5">
+                    <label for="rua" class="form-label text-black"><strong>Rua:</strong></label>
+                    <input type="text" name="rua" id="rua" class="form-control" required>
+                </div>
+               
+                    <div class="col-md-3">
+                        <label for="numero" class="form-label text-black"><strong>Número:</strong></label>
+                        <input type="number" name="numero" id="numero" class="form-control">
+                    </div>
+                    
+           
+            <div class="col-md-4">
+                <label for="complemento" class="form-label text-black"><strong>Complemento:</strong></label>
+                <input type="text" name="complemento" id="complemento" class="form-control">
+            </div>
+        </div>
+<br>
+        <div class="mb-3">
+            <h2 style="background-color: #3b5998; color: white; text-align: center;">Matrícula</h2>
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="matricula" class="form-label text-black"><strong>Matrícula:</strong></label>
+                    <input type="number" name="matricula" id="matricula" class="form-control" required>
+                </div>
+                <div class="col-md-2">
+                    <label for="periodo" class="form-label text-black"><strong>Período:</strong></label>
+                    <select name="periodo" id="periodo" class="form-select" required>
+                        <option value="">Selecione</option>
+                        <option value="Matutino">Matutino</option>
+                        <option value="Vespertino">Vespertino</option>
+                        <option value="Noturno">Noturno</option>
+                        <!-- Adicione as opções restantes aqui -->
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="curso" class="form-label text-black"><strong>Curso escolhido:</strong></label>
+                    <select name="curso" id="curso" class="form-select" required>
+                        <option value="">Selecione</option>
+                        <option value="Engenharia da Computação">Engenharia da Computação</option>
+                        <option value="Ciência da Computação">Ciência da Computação</option>
+                        <option value="Sistemas de Informação">Sistemas de Informação</option>
+                        <!-- Adicione as opções restantes aqui -->
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <br>
+            <a class="btn btn-warning" type="submit" href="/buscador/">Voltar</a>
+            <button type="reset" class="btn btn-danger">Limpar</button>
+            <button type="submit" class="btn btn-primary">Salvar</button>
+        </div>
+    </form>
+</div>
+
+<script>
+
+    function consultarCEP() {
+        var cep = document.getElementById('cep').value;
+        cep = cep.replace('-', '').replace(',', '').replace(' ', '');
+
+        if (cep.length == 8) {
+            var url = 'https://viacep.com.br/ws/' + cep + '/json/';
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('cidade').value = data.localidade;
+                    document.getElementById('uf').value = data.uf;
+                    document.getElementById('bairro').value = data.bairro;
+                    document.getElementById('rua').value = data.logradouro;
+                    // Adicione mais campos conforme necessário
+                })
+                .catch(error => {
+                    console.error('Erro ao consultar CEP:', error);
+                });
+        }
+    }
+
+    function validarCPF(cpf) {
+        cpf = cpf.replace(/[^\d]+/g, '');
+        if (cpf == '') return false;
+        // Validação de CPF
+        var soma = 0;
+        var resto;
+        for (var i = 1; i <= 9; i++) soma = soma + parseInt(cpf.substring(i - 1, i)) * (11 - i);
+        resto = (soma * 10) % 11;
+        if ((resto == 10) || (resto == 11)) resto = 0;
+        if (resto != parseInt(cpf.substring(9, 10))) return false;
+        soma = 0;
+        for (var i = 1; i <= 10; i++) soma = soma + parseInt(cpf.substring(i - 1, i)) * (12 - i);
+        resto = (soma * 10) % 11;
+        if ((resto == 10) || (resto == 11)) resto = 0;
+        if (resto != parseInt(cpf.substring(10, 11))) return false;
+        return true;
+    }
+
+    function validarForm() {
+        var cpf = document.getElementById('cpf').value;
+        if (!validarCPF(cpf)) {
+            alert('CPF inválido');
+            return false;
+        }
+        return true;
+    }
+</script>
+
+
+{% endblock %}

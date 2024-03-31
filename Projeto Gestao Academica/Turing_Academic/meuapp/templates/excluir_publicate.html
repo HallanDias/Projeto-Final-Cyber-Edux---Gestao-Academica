@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Buscar Aluno
+{% endblock %}
+
+{% block conteudo %}
+<!-- Conteúdo específico desta página -->
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+    <div class="container custom-container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-md-6">
+                <div class="card" style="background-color: #800080; color: white;">
+                    <div class="card-body">
+                        <h1 class="card-title text-center">Confirmar Exclusão</h1><br>
+                        <p class="card-text">Você está prestes a excluir o cadastro do aluno matriculado.<br><strong>Nome:</strong> {{ post.nome }}<br><strong>Curso:</strong> {{ post.curso }}<br><strong>Periodo:</strong> {{ post.periodo }}<br><strong>Nº de matricula:</strong> {{ post.matricula }}. <br><h5>Tem certeza que deseja prosseguir?<h5></p>
+                        <form action="{% url 'excluir_publicate' post.id %}" method="post">
+                            {% csrf_token %}
+                            <div class="mb-3 text-center">
+                                <a class="btn btn-warning" href="/">Voltar</a>
+                                <button class="btn btn-danger" type="submit">Confirmar Exclusão</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+
+    {% endblock %}

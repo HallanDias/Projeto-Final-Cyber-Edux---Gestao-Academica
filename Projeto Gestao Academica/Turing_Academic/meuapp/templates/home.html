@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% load tz %}
+{% load static %}
+{% block title %}Home{% endblock %}
+{% block conteudo %}
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<h2 class="text-center" style="color: black; text-align: right;">Alunos Matriculados</h2>
+<br>
+<main class="container">
+    {% for post in posts %}
+    <div class="row bg-light m-3 border p-3">
+        <div class="col-md-3">
+            <p><strong>Nome:</strong> {{ post.nome }}</p>
+            <p><strong>CPF:</strong> {{ post.cpf }}</p>
+            <p><strong>Curso:</strong> {{ post.curso }}</p>
+            <div class="row mt-0" style="text-align: justify;">
+                <div class="conteudo">
+                    <p><strong> Biometria Facial:</strong><img src="{{ post.image.url }}" width="52px" style="border-radius: 60%;">
+                </div>
+            </div><br>
+            <p><strong>Última atualização:</strong> {{ post.data|date:"d/m/Y" }}</p>
+
+        </div>
+        <div class="col-md-4">
+            <div class="endereco" style="display: none;">
+                <p><strong>CEP:</strong> {{ post.cep }}</p>
+                <p><strong>Rua:</strong> {{ post.rua }}</p>
+                <p><strong>Número:</strong> {{ post.numero }}</p>
+                <p><strong>Complemento:</strong> {{ post.complemento }}</p>
+                <p><strong>Cidade:</strong> {{ post.cidade }}</p>
+                <p><strong>Estado:</strong> {{ post.uf }}</p>
+            </div>
+            <div class="collapse" id="address{{ forloop.counter }}">
+                <div class="row mt-1">
+                    <div class="col-md-6">
+                        <p class="text-center" style="background-color: black; color: white; text-align: right;"><strong><span>DADOS PESSOAIS</span></strong></p>
+                        <p><strong>Nome:</strong> {{ post.nome }}</p>
+                        <p><strong>CPF:</strong> {{ post.cpf }}</p>
+                        <p><strong>Data de Nascimento:</strong> {{ post.data_nasc|date:"d/m/Y" }}</p>
+                        <p><strong>Sexo:</strong> {{ post.sexo }}</p>
+                        <p><strong>Nome da Mãe:</strong> {{ post.nome_mae }}</p>
+                        <p><strong>Naturalidade:</strong> {{ post.naturalidade }}</p>
+                        <p><strong>Email:</strong> {{ post.email }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="text-center" style="background-color: black; color: white; text-align: right;"><strong><span>ENDEREÇO</span></strong></p>
+                        <p><strong>CEP:</strong> {{ post.cep }}</p>
+                        <p><strong>Rua:</strong> {{ post.rua }}</p>
+                        <p><strong>Número:</strong> {{ post.numero }}</p>
+                        <p><strong>Complemento:</strong> {{ post.complemento }}</p>
+                        <p><strong>Cidade:</strong> {{ post.cidade }}</p>
+                        <p><strong>Estado:</strong> {{ post.uf }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="collapse" id="address{{ forloop.counter }}">
+                <div class="row mt-1">
+                    <div class="col-md-6">
+                        <p class="text-center" style="background-color: black; color: white; text-align: right;"><strong><span>MATRICULA</span></strong></p>
+                        <p><strong>Matrícula:</strong> {{ post.matricula }}</p>
+                        <p><strong>Período:</strong> {{ post.periodo }}</p>
+                        <p><strong>Curso:</strong> {{ post.curso }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="row mt-0">
+                <div class="col">
+                    <div class="btn-group">
+                        <button class="btn btn-primary btn-sm toggle-address me-2" data-bs-toggle="collapse"
+                            data-bs-target="#address{{ forloop.counter }}">
+                            Cadastro Completo
+                        </button>
+                        <div class="btn-group">
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <a class="btn btn-primary btn-sm text-white" href="/formulario_update/{{ post.id }}">Atualizar</a>
+                                <a class="btn btn-danger btn-sm" href="{% url 'excluir_publicate' post.id %}">Apagar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <a class="btn btn-warning" type="submit" href="/buscador/">Voltar</a>
+    </div>
+</main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const toggleButtons = document.querySelectorAll('.toggle-address');
+
+        toggleButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const addressDiv = button.closest('.row').querySelector('.endereco');
+                addressDiv.style.display = addressDiv.style.display === 'none' ? 'block' : 'none';
+            });
+        });
+    });
+
+    function consultarCEP() {
+        var cep = document.getElementById('cep').value;
+        cep = cep.replace('-', '').replace(',', '').replace(' ', '');
+
+        if (cep.length == 8) {
+            var url = 'https://viacep.com.br/ws/' + cep + '/json/';
+
+            fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('cidade').value = data.localidade;
+                document.getElementById('uf').value = data.uf;
+                document.getElementById('rua').value = data.logradouro;
+                // Adicione mais campos conforme necessário
+            })
+            .catch(error => {
+                console.error('Erro ao consultar CEP:', error);
+            });
+        }
+    }
+</script>
+
+
+
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block titulo %}Cadastro{% endblock %}
+{% block conteudo %}
+
+<br>
+<br>
+<br>
+<br>
+
+<div class="container mt-5">
+    <h1 style="text-align: center; color: black;">Registrar Profissional</h1>
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card" style="background-color: #3b5998;">
+                <div class="card-body">
+                    <form method="POST" enctype="form-data"> 
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="nome" class="form-label text-white"><strong>Nome:</strong></label>
+                            <input type="text" name="nome" id="nome" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label text-white"><strong>Email:</strong></label>
+                            <input type="email" name="email" id="email" class="form-control">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="senha" class="form-label text-white"><strong>Senha:</strong></label>
+                            <input type="password" name="senha" id="senha" class="form-control">
+                            <div class="form-text text-white">A senha deve conter letras, números e símbolos</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="senha1" class="form-label text-white"><strong>Confirmação de Senha:</strong></label>
+                            <input type="password" name="senha1" id="senha1" class="form-control">
+                            <div class="form-text text-white">A senha deve conter letras, números e símbolos</div>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" name="termos" id="termos" class="form-check-input">
+                            <label for="termos" class="form-check-label text-white">Aceito os termos de serviço</label>
+                        </div>
+                        <div class="mb-3">
+                            <button type="reset" class="btn btn-danger">Limpar</button>
+                            <button type="submit" class="btn btn-primary">Salvar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end"><br>
+            <a class="btn btn-warning" type="submit" href="/buscador/">Voltar</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

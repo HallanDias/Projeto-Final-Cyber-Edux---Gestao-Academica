@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Buscar Aluno
+{% endblock %}
+
+{% block conteudo %}
+<!-- Conteúdo específico desta página -->
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+   <div class="container mt-5">
+        <h1 class="text-center">Pesquisar Aluno</h1>
+        <div class="row justify-content-center mt-3">
+            <div class="col-md-6">
+                <div class="input-group mb-3">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Digite o nome ou CPF do aluno">
+                    <button class="btn btn-primary" type="button" onclick="searchStudents()">Buscar aluno</button>
+                </div>
+                <div id="searchFeedback" class="alert alert-danger d-none" role="alert">
+                    Por favor, insira um nome ou CPF para realizar a busca.
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <table id="resultsTable" class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nome</th>
+                            <th scope="col">CPF</th>
+                            <th scope="col">Curso</th>
+                            <th scope="col">Matricula</th>
+                            <th scope="col">Periodo</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resultsBody">
+                        <!-- Results will be displayed here -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <a class="btn btn-primary" href="/">Alunos matriculados</a>
+                <a class="btn btn-primary" href="/listagem_alunos/">Listagem de Alunos por curso e periodo</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and Fetch Polyfill (for older browsers) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/3.6.2/fetch.min.js"></script>
+
+    <!-- JavaScript for search functionality -->
+    <script>
+        function searchStudents() {
+            var searchValue = document.getElementById('searchInput').value;
+            // Verificar se o valor de pesquisa não está vazio
+            if (searchValue.trim() !== '') {
+                var url = '/search_students/?searchValue=' + searchValue;
+                console.log('URL:', url); // Debugging: Log the URL
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Search results:', data); // Debugging: Log the search results
+                        var resultsBody = document.getElementById('resultsBody');
+                        resultsBody.innerHTML = ''; // Clear previous results
+                        data.forEach(student => {
+                            var row = `<tr><td>${student.nome}</td><td>${student.cpf}</td><td>${student.curso}</td><td>${student.matricula}</td><td>${student.periodo}</td></tr>`;
+                            resultsBody.innerHTML += row;
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error searching students:', error);
+                    });
+                // Esconder o feedback de busca inválida, se estiver sendo exibido
+                document.getElementById('searchFeedback').classList.add('d-none');
+            } else {
+                // Exibir o feedback de busca inválida
+                document.getElementById('searchFeedback').classList.remove('d-none');
+            }
+        }
+    </script>
+{% endblock %}

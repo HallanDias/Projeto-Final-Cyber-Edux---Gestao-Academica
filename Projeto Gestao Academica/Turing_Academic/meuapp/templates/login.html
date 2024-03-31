@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- You can also include your custom CSS file here -->
+    <style>
+        body {
+            /* Define a imagem de fundo e seu tamanho */
+            background-image: url('{% static "logoproj.png" %}');
+            background-size: 1920px 1080px; /* Ajusta a imagem para cobrir todo o elemento pai */
+            background-repeat: no-repeat; /* Evita a repetição da imagem */
+        }
+
+        .login-box {
+            margin-top: 120px;
+            background-color: #3b5998; /* Define a cor de fundo para #3b5998 */
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        /* Adicione outras regras de estilo conforme necessário */
+    </style>
+</head>
+
+<body>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card login-box">
+                    <h1 class="card-header text-center text-white">Portal de Acesso</h1>
+                    <div class="card-body">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="username" class="form-label text-white"><strong>Usuario</strong></label>
+                                <input type="text" class="form-control" id="username" name="username" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label text-white"><strong>Senha</strong></label>
+                                <input type="password" class="form-control" id="password" name="password" required>
+                            </div>
+
+                            {% if incorrect_login %}
+                            <div class="alert alert-danger" role="alert">
+                               Usuario ou senha incorreto!
+                            </div>
+                            {% endif %}
+
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <button type="submit" class="btn btn-primary">Entrar</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Add your JavaScript code here for form validation and submission -->
+</body>
+
+</html>

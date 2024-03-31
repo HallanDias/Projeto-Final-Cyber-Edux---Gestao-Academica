@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Buscar Aluno
+{% endblock %}
+
+{% block conteudo %}
+<!-- Conteúdo específico desta página -->
+<br>
+<br>
+<br>
+<br>
+    <div class="container mt-5">
+        <h1 class="text-center">Lançar Notas</h1>
+        <div class="row justify-content-center mt-3">
+            <div class="col-md-4">
+                <div class="mb-3">
+                    {% csrf_token %}
+                    <label for="curso" class="form-label text-black"><strong>Curso:</strong></label>
+                    <select name="curso" id="curso" class="form-select">
+                        <option value="">Selecione</option>
+                        <option value="Engenharia da Computação">Engenharia da Computação</option>
+                        <option value="Ciência da Computação">Ciência da Computação</option>
+                        <option value="Sistemas de Informação">Sistemas de Informação</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="periodo" class="form-label text-black"><strong>Período:</strong></label>
+                    <select name="periodo" id="periodo" class="form-select">
+                        <option value="">Selecione</option>
+                        <option value="Matutino">Matutino</option>
+                        <option value="Vespertino">Vespertino</option>
+                        <option value="Noturno">Noturno</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-primary" onclick="carregarTurmas()">Carregar Alunos</button>
+                </div>
+            </div>
+        </div>
+        <div id="turmasContainer" class="row justify-content-center">
+            <!-- Turmas serão carregadas dinamicamente aqui -->
+        </div>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a class="btn btn-warning" type="submit" href='/buscador/'>Voltar</a>
+           
+        </div>
+    </div>
+
+    
+
+
+
+{% for turma in turmas %}
+<tr>
+    <td>{{ turma.aluno.nome }}</td>
+    <td>{{ turma.turma.nome }}</td>
+    <td>{{ turma.nota1 }}</td>
+    <td>{{ turma.nota2 }}</td>
+    <td>{{ turma.nota3 }}</td>
+    <td>{{ turma.media }}</td>
+    <td>{{ turma.status }}</td>
+    <td><button type="button" class="btn btn-primary" onclick="salvarNota({{ turma.id }})">Salvar</button></td>
+</tr>
+{% endfor %}
+
+
+    <!-- Bootstrap JS and Fetch Polyfill (for older browsers) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/3.6.2/fetch.min.js"></script>
+
+    <!-- JavaScript para carregar cursos e turmas -->
+    <script>
+        function carregarTurmas() {
+            var curso = document.getElementById('curso').value;
+            var periodo = document.getElementById('periodo').value;
+            var url = '/carregar_turmas/?curso=' + curso + '&periodo=' + periodo;
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Turmas:', data); // Debugging: Log das turmas
+                    var turmasContainer = document.getElementById('turmasContainer');
+                    turmasContainer.innerHTML = ''; // Limpa as turmas anteriores
+                    data.forEach(turma => {
+                        var turmaHtml = `
+                            <div class="col-md-4">
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${turma.nome}</h5>
+                                        <form id="turmaForm_${turma.id}" action="/salvar_nota/" method="POST">
+
+                                            {% csrf_token %}
+                                            <input type="hidden" name="turma_id" value="${turma.id}">
+                                            <div class="mb-3">
+                                                <label for="nota1_${turma.id}" class="form-label text-black"><strong>Nota 1: Algoritmo 1 e 2</strong></label>
+                                                <input type="number" name="nota1" id="nota1_${turma.id}" class="form-control" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="nota2_${turma.id}" class="form-label text-black"><strong>Nota 2: Matematica Intermediaria</strong></label>
+                                                <input type="number" name="nota2" id="nota2_${turma.id}" class="form-control" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="nota3_${turma.id}" class="form-label text-black"><strong>Nota 3: Banco de Dados</strong></label>
+                                                <input type="number" name="nota3" id="nota3_${turma.id}" class="form-control" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="media_${turma.id}" class="form-label text-black"><strong>Média:</strong></label>
+                                                <input type="text" id="media_${turma.id}" class="form-control" readonly>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="status_${turma.id}" class="form-label text-black"><strong>Status:</strong></label>
+                                                <input type="text" id="status_${turma.id}" class="form-control" readonly>
+                                            </div>
+                                            <button type="button" class="btn btn-primary" onclick="calcularMedia(${turma.id})">Calcular Nota</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        turmasContainer.innerHTML += turmaHtml;
+                    });
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar turmas:', error);
+                });
+        }
+
+        function calcularMedia(turmaId) {
+            var nota1 = parseFloat(document.getElementById('nota1_' + turmaId).value);
+            var nota2 = parseFloat(document.getElementById('nota2_' + turmaId).value);
+            var nota3 = parseFloat(document.getElementById('nota3_' + turmaId).value);
+            var media = (nota1 + nota2 + nota3) / 3;
+            var status = media >= 7 ? 'Aprovado' : 'Reprovado';
+            document.getElementById('media_' + turmaId).value = media.toFixed(2);
+            document.getElementById('status_' + turmaId).value = status;
+        }
+        
+        
+        // Adicione um evento de clique ao botão de salvar
+    document.getElementById('btnSalvar').addEventListener('click', function() {
+        // Envie todos os formulários quando o botão de salvar for clicado
+        document.querySelectorAll('form').forEach(form => form.submit());
+    });
+
+    
+
+    // Função para salvar a nota
+    function salvarNota(turmaId) {
+        // Obtenha as notas do formulário
+        var nota1 = parseFloat(document.getElementById('nota1_' + turmaId).value);
+        var nota2 = parseFloat(document.getElementById('nota2_' + turmaId).value);
+        var nota3 = parseFloat(document.getElementById('nota3_' + turmaId).value);
+
+        // Crie um objeto FormData para enviar os dados para o servidor
+        var formData = new FormData();
+        formData.append('turma_id', turmaId);
+        formData.append('nota1', nota1);
+        formData.append('nota2', nota2);
+        formData.append('nota3', nota3);
+
+        // Faça uma requisição AJAX para salvar a nota
+        fetch('/salvar_nota/', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': document.querySelector('input[name="csrfmiddlewaretoken"]').value
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Adicione a nova linha à tabela de notas
+            var tbody = document.getElementById('notasTableBody');
+            var newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td>${data.aluno}</td>
+                <td>${data.turma}</td>
+                <td>${data.nota1}</td>
+                <td>${data.nota2}</td>
+                <td>${data.nota3}</td>
+                <td>${data.media}</td>
+                <td>${data.status}</td>
+            `;
+            tbody.appendChild(newRow);
+
+            // Limpe os campos de entrada após salvar
+            document.getElementById('nota1_' + turmaId).value = '';
+            document.getElementById('nota2_' + turmaId).value = '';
+            document.getElementById('nota3_' + turmaId).value = '';
+        })
+        .catch(error => console.error('Erro ao salvar nota:', error));
+    }
+
+        
+    </script>
+   
+    
+{% endblock %}

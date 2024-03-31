@@ -1,0 +1,307 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Buscar Aluno
+{% endblock %}
+
+{% block conteudo %}
+<!-- Conteúdo específico desta página -->
+Conteúdo da página vai aqui.
+
+
+    <main>
+        <div class="container">
+            <br>
+            <br><br><br>
+            <h1 class="text-center">Listagem de Alunos por Curso e Período</h1>
+            
+            <br>
+            
+            <!-- Engenharia da Computação -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        
+                        <h2 style="background-color: #3b5998; color: white; text-align: center; margin-bottom: 15px;">Engenharia da Computação</h2>
+
+                        
+                        <!-- Matutino -->
+                        <h3 style="background-color: black; color: white; text-align: center; margin-bottom: 15px;">Matutino</h3>
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="width: 10%;">CPF</th>
+                                    <th style="width: 20%;">Nome</th>
+                                    <th style="width: 15%;">Matrícula</th>
+                                    <th style="width: 20%;">Curso</th>
+                                    <th style="width: 15%;">Período</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for aluno in alunos %}
+                                    {% if aluno.curso == 'Engenharia da Computação' and aluno.periodo == 'Matutino' %}
+                                        <tr>
+                                            <td>{{ aluno.cpf }}</td>
+                                            <td>{{ aluno.nome }}</td>
+                                            <td>{{ aluno.matricula }}</td>
+                                            <td>{{ aluno.curso }}</td>
+                                            <td>{{ aluno.periodo }}</td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        
+                        <!-- Vespertino -->
+                        <h3 style="background-color: black; color: white; text-align: center; margin-bottom: 15px;">Vespertino</h3>
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="width: 10%;">CPF</th>
+                                    <th style="width: 20%;">Nome</th>
+                                    <th style="width: 15%;">Matrícula</th>
+                                    <th style="width: 20%;">Curso</th>
+                                    <th style="width: 15%;">Período</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for aluno in alunos %}
+                                    {% if aluno.curso == 'Engenharia da Computação' and aluno.periodo == 'Vespertino' %}
+                                        <tr>
+                                            <td>{{ aluno.cpf }}</td>
+                                            <td>{{ aluno.nome }}</td>
+                                            <td>{{ aluno.matricula }}</td>
+                                            <td>{{ aluno.curso }}</td>
+                                            <td>{{ aluno.periodo }}</td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        
+                        <!-- Noturno -->
+                        <h3 style="background-color: black; color: white; text-align: center; margin-bottom: 15px;">Noturno</h3>
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="width: 10%;">CPF</th>
+                                    <th style="width: 20%;">Nome</th>
+                                    <th style="width: 15%;">Matrícula</th>
+                                    <th style="width: 20%;">Curso</th>
+                                    <th style="width: 15%;">Período</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for aluno in alunos %}
+                                    {% if aluno.curso == 'Engenharia da Computação' and aluno.periodo == 'Noturno' %}
+                                        <tr>
+                                            <td>{{ aluno.cpf }}</td>
+                                            <td>{{ aluno.nome }}</td>
+                                            <td>{{ aluno.matricula }}</td>
+                                            <td>{{ aluno.curso }}</td>
+                                            <td>{{ aluno.periodo }}</td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <!-- Ciência da Computação -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <h2 style="background-color: #3b5998; color: white; text-align: center; margin-bottom: 15px;">Ciência da Computação</h2>
+                        
+                        <!-- Matutino -->
+                        <h3 style="background-color: black; color: white; text-align: center; margin-bottom: 15px;">Matutino</h3>
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="width: 10%;">CPF</th>
+                                    <th style="width: 20%;">Nome</th>
+                                    <th style="width: 15%;">Matrícula</th>
+                                    <th style="width: 20%;">Curso</th>
+                                    <th style="width: 15%;">Período</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                               
+                                {% for aluno in alunos %}
+                                    {% if aluno.curso == 'Ciência da Computação' and aluno.periodo == 'Matutino' %}
+                                        <tr>
+                                            <td>{{ aluno.cpf }}</td>
+                                            <td>{{ aluno.nome }}</td>
+                                            <td>{{ aluno.matricula }}</td>
+                                            <td>{{ aluno.curso }}</td>
+                                            <td>{{ aluno.periodo }}</td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        
+                        <!-- Vespertino -->
+                        <h3 style="background-color: black; color: white; text-align: center; margin-bottom: 15px;">Vespertino</h3>
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="width: 10%;">CPF</th>
+                                    <th style="width: 20%;">Nome</th>
+                                    <th style="width: 15%;">Matrícula</th>
+                                    <th style="width: 20%;">Curso</th>
+                                    <th style="width: 15%;">Período</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for aluno in alunos %}
+                                    {% if aluno.curso == 'Ciência da Computação' and aluno.periodo == 'Vespertino' %}
+                                        <tr>
+                                            <td>{{ aluno.cpf }}</td>
+                                            <td>{{ aluno.nome }}</td>
+                                            <td>{{ aluno.matricula }}</td>
+                                            <td>{{ aluno.curso }}</td>
+                                            <td>{{ aluno.periodo }}</td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        
+                        <!-- Noturno -->
+                        <h3 style="background-color: black; color: white; text-align: center; margin-bottom: 15px;">Noturno</h3>
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="width: 10%;">CPF</th>
+                                    <th style="width: 20%;">Nome</th>
+                                    <th style="width: 15%;">Matrícula</th>
+                                    <th style="width: 20%;">Curso</th>
+                                    <th style="width: 15%;">Período</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for aluno in alunos %}
+                                    {% if aluno.curso == 'Ciência da Computação' and aluno.periodo == 'Noturno' %}
+                                        <tr>
+                                            <td>{{ aluno.cpf }}</td>
+                                            <td>{{ aluno.nome }}</td>
+                                            <td>{{ aluno.matricula }}</td>
+                                            <td>{{ aluno.curso }}</td>
+                                            <td>{{ aluno.periodo }}</td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <!-- Sistemas de Informação -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <h2 style="background-color: #3b5998; color: white; text-align: center; margin-bottom: 15px;">Sistemas de Informação</h2>
+                        
+                        <!-- Matutino -->
+                        <h3 style="background-color: black; color: white; text-align: center; margin-bottom: 15px;">Matutino</h3>
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="width: 10%;">CPF</th>
+                                    <th style="width: 20%;">Nome</th>
+                                    <th style="width: 15%;">Matrícula</th>
+                                    <th style="width: 20%;">Curso</th>
+                                    <th style="width: 15%;">Período</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for aluno in alunos %}
+                                    {% if aluno.curso == 'Sistemas de Informação' and aluno.periodo == 'Matutino' %}
+                                        <tr>
+                                            <td>{{ aluno.cpf }}</td>
+                                            <td>{{ aluno.nome }}</td>
+                                            <td>{{ aluno.matricula }}</td>
+                                            <td>{{ aluno.curso }}</td>
+                                            <td>{{ aluno.periodo }}</td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        
+                        <!-- Vespertino -->
+                        <h3 style="background-color: black; color: white; text-align: center; margin-bottom: 15px;">Vespertino</h3>
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="width: 10%;">CPF</th>
+                                    <th style="width: 20%;">Nome</th>
+                                    <th style="width: 15%;">Matrícula</th>
+                                    <th style="width: 20%;">Curso</th>
+                                    <th style="width: 15%;">Período</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for aluno in alunos %}
+                                    {% if aluno.curso == 'Sistemas de Informação' and aluno.periodo == 'Vespertino' %}
+                                        <tr>
+                                            <td>{{ aluno.cpf }}</td>
+                                            <td>{{ aluno.nome }}</td>
+                                            <td>{{ aluno.matricula }}</td>
+                                            <td>{{ aluno.curso }}</td>
+                                            <td>{{ aluno.periodo }}</td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        
+                        <!-- Noturno -->
+                        <h3 style="background-color: black; color: white; text-align: center; margin-bottom: 15px;">Noturno</h3>
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="width: 10%;">CPF</th>
+                                    <th style="width: 20%;">Nome</th>
+                                    <th style="width: 15%;">Matrícula</th>
+                                    <th style="width: 20%;">Curso</th>
+                                    <th style="width: 15%;">Período</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for aluno in alunos %}
+                                    {% if aluno.curso == 'Sistemas de Informação' and aluno.periodo == 'Noturno' %}
+                                        <tr>
+                                            <td>{{ aluno.cpf }}</td>
+                                            <td>{{ aluno.nome }}</td>
+                                            <td>{{ aluno.matricula }}</td>
+                                            <td>{{ aluno.curso }}</td>
+                                            <td>{{ aluno.periodo }}</td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a class="btn btn-warning" type="submit" href="/buscador/">Voltar</a>
+                        <a class="btn btn-primary" type="submit" href="/lancar_nota/">Lançar nota</a>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </main>
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+
+
+        {% endblock %}
